@@ -1,0 +1,11 @@
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.route-holder {
+    flex: 1;
+    min-height: calc(100vh - 120px);
+    margin-top: 60px;
+}
