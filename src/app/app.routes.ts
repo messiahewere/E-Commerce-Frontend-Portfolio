@@ -8,26 +8,26 @@ export const routes: Routes = [
     },
     {
         path: 'home',
-        loadChildren: () => import('./pages/home/home').then(m => m.Home)
+        loadComponent: () => import('./pages/home/home').then(m => m.Home)
     },
     {
         path: 'products',
-        loadChildren: () => import('./pages/products/products').then(m => m.Products)
+        loadComponent: () => import('./pages/products/products').then(m => m.Products)
     },
     {
         path: 'carts',
-        loadChildren: () => import('./pages/carts/carts').then(m => m.Carts)
+        loadComponent: () => import('./pages/carts/carts').then(m => m.Carts)
     },
     {
         path: 'orders',
-        loadChildren: () => import('./pages/orders/orders').then(m => m.Orders)
+        loadComponent: () => import('./pages/orders/orders').then(m => m.Orders)
     },
     {
         path: 'login',
-        loadChildren: () => import('./pages/login/login').then(m => m.Login)
+        loadComponent: () => import('./pages/login/login').then(m => m.Login)
     },
     {
         path: 'dashboard',
-        loadChildren: () => import('./pages/dashboard/dashboard').then(m => m.Dashboard)
+        loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.Dashboard)
     }
 ];
