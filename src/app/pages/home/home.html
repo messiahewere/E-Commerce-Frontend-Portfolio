@@ -1,6 +1,6 @@
 <div class="container">
     
     <h3>Highly Rated Products</h3>
-    <product-cards></product-cards>
-    <button>Click To See All Products</button>
+    <product-cards *ngIf="toShowProducts" [products]="toShowProducts"></product-cards>
+    <button routerLink="/products">Click To See All Products</button>
 </div>

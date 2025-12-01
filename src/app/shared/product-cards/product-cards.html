@@ -1,92 +1,14 @@
 <div class="container">
-    <div class="product-container">
+    <div class="product-container" *ngFor="let product of products">
         <figure>
-            <img src="light bg logo only.png">
+            <img [src]="product.images[0]" [alt]="product.title"/>
         </figure>
         <div class="text-container">
-            <p>Description: Noise-cancelling over-ear headphones with 40h battery life.</p>
-            <p>Price: $199.99</p>
-            <p>Category: Electronics</p>
-            <p>Brand: SoundCore</p>
-            <p>Rating: 4.5</p>
-        </div>
-        <button>Add to Cart</button>
-    </div>
-    <div class="product-container">
-        <figure>
-            <img src="light bg logo only.png">
-        </figure>
-        <div class="text-container">
-            <p>Description: Noise-cancelling over-ear headphones with 40h battery life.</p>
-            <p>Price: $199.99</p>
-            <p>Category: Electronics</p>
-            <p>Brand: SoundCore</p>
-            <p>Rating: 4.5</p>
-        </div>
-        <button>Add to Cart</button>
-    </div>
-    <div class="product-container">
-        <figure>
-            <img src="light bg logo only.png">
-        </figure>
-        <div class="text-container">
-            <p>Description: Noise-cancelling over-ear headphones with 40h battery life.</p>
-            <p>Price: $199.99</p>
-            <p>Category: Electronics</p>
-            <p>Brand: SoundCore</p>
-            <p>Rating: 4.5</p>
-        </div>
-        <button>Add to Cart</button>
-    </div>
-    <div class="product-container">
-        <figure>
-            <img src="light bg logo only.png">
-        </figure>
-        <div class="text-container">
-            <p>Description: Noise-cancelling over-ear headphones with 40h battery life.</p>
-            <p>Price: $199.99</p>
-            <p>Category: Electronics</p>
-            <p>Brand: SoundCore</p>
-            <p>Rating: 4.5</p>
-        </div>
-        <button>Add to Cart</button>
-    </div>
-    <div class="product-container">
-        <figure>
-            <img src="light bg logo only.png">
-        </figure>
-        <div class="text-container">
-            <p>Description: Noise-cancelling over-ear headphones with 40h battery life.</p>
-            <p>Price: $199.99</p>
-            <p>Category: Electronics</p>
-            <p>Brand: SoundCore</p>
-            <p>Rating: 4.5</p>
-        </div>
-        <button>Add to Cart</button>
-    </div>
-    <div class="product-container">
-        <figure>
-            <img src="light bg logo only.png">
-        </figure>
-        <div class="text-container">
-            <p>Description: Noise-cancelling over-ear headphones with 40h battery life.</p>
-            <p>Price: $199.99</p>
-            <p>Category: Electronics</p>
-            <p>Brand: SoundCore</p>
-            <p>Rating: 4.5</p>
-        </div>
-        <button>Add to Cart</button>
-    </div>
-    <div class="product-container">
-        <figure>
-            <img src="light bg logo only.png">
-        </figure>
-        <div class="text-container">
-            <p>Description: Noise-cancelling over-ear headphones with 40h battery life.</p>
-            <p>Price: $199.99</p>
-            <p>Category: Electronics</p>
-            <p>Brand: SoundCore</p>
-            <p>Rating: 4.5</p>
+            <p><span class="item-title">Description:</span> {{product.description}}</p>
+            <p><span class="item-title">Price:</span> {{product.price | currency}}</p>
+            <p><span class="item-title">Category:</span> {{product.category}}</p>
+            <p><span class="item-title">Brand:</span> {{product.brand}}</p>
+            <p><span class="item-title">Rating:</span> {{product.rating}}</p>
         </div>
         <button>Add to Cart</button>
     </div>

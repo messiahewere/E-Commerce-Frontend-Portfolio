@@ -17,7 +17,7 @@
         </button>
     </mat-menu>
 
-    <figure>
+    <figure routerLink="/home">
         <img src="EM.png">
     </figure>
     <mat-form-field appearance="outline" subscriptSizing="dynamic">
@@ -28,7 +28,7 @@
         </button>
     </mat-form-field>
     <nav>
-        <a href="#">Orders</a>
-        <a href="#"><mat-icon matBadge="15" >shopping_cart</mat-icon>Carts</a>
+        <a routerLink="/orders" routerLinkActive="active">Orders</a>
+        <a routerLink="/carts" routerLinkActive="active"><mat-icon matBadge="15" >shopping_cart</mat-icon>Carts</a>
     </nav>
 </div>
