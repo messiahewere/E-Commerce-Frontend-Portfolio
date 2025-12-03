@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="product-container" *ngFor="let product of products">
+    <div class="product-container" *ngFor="let product of showProducts">
         <figure>
             <img [src]="product.images[0]" [alt]="product.title"/>
         </figure>

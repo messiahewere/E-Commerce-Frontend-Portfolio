@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import ProductsModel from '../../models/products';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Search } from '../../services/search';
 
 @Component({
   selector: 'product-cards',
@@ -11,12 +12,20 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 export class ProductCards implements OnInit {
   @Input({ required: true })
   products!: ProductsModel[];
+  showProducts: ProductsModel[] = [];
+
+  search = inject(Search);
 
   ngOnInit() {
-    this.products.forEach((product, index) => {
-      console.log(`Product ${index} images:`, product.images);
-      console.log(`First image URL:`, product.images[0]);
-      console.log(`URL length:`, product.images[0]?.length);
+    this.showProducts = this.products;
+    
+    // subscribe to the search input value from the Search service
+    this.search.searchEmit.subscribe((searchValue: string) => {
+      if (searchValue) {
+        this.showProducts = this.products.filter((product: ProductsModel) => product.title.toLowerCase().includes(searchValue.toLowerCase()));
+      } else {
+        this.showProducts = this.products;
+      }
     });
-  }
+ }
 }
