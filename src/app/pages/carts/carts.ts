@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Cart } from '../../services/cart';
 import ProductsModel from '../../models/products';
 import { CurrencyPipe, DatePipe, NgFor } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-carts',
-  imports: [NgFor, DatePipe, CurrencyPipe],
+  imports: [NgFor, DatePipe, CurrencyPipe, RouterModule],
   templateUrl: './carts.html',
   styleUrl: './carts.scss',
 })
