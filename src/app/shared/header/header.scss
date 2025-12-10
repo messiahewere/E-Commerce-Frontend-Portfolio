@@ -94,9 +94,13 @@ nav a {
     padding: 0 10px;
   }
 
-  mat-form-field {
+  mat-form-field, h2 {
     flex: 1;
     max-width: 1000px;
+  }
+
+  h2 {
+    text-align: center;
   }
 
   nav {
