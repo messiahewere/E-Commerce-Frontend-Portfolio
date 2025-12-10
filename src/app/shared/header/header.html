@@ -29,6 +29,6 @@
     </mat-form-field>
     <nav>
         <a routerLink="/orders" routerLinkActive="active">Orders</a>
-        <a routerLink="/carts" routerLinkActive="active"><mat-icon matBadge="15" >shopping_cart</mat-icon>Carts</a>
+        <a routerLink="/carts" routerLinkActive="active"><mat-icon [matBadge]="count" >shopping_cart</mat-icon>Carts</a>
     </nav>
 </div>

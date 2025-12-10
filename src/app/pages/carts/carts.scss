@@ -49,7 +49,10 @@ figure {
 .items-details, .delivery-date {
     display: flex;
     flex-direction: column;
-    align-items: center;
+}
+
+.items-details {
+    flex-grow: 1;
 }
 
 .bold {
@@ -126,4 +129,10 @@ button {
     font-size: 1.2em;
 }
 
+}
+
+@media screen and (min-width: 1024px) {
+    .items-details {
+        align-items: center;
+    }
 }

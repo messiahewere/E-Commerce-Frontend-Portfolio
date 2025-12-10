@@ -8,6 +8,7 @@ export default class ProductsModel {
     public brand: string,
     public rating: number,
     public stock: number,
-    public images: string[]
+    public images: string[],
+    public count?: number
   ) {}
 }
