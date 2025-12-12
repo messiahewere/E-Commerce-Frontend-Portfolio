@@ -27,12 +27,11 @@ export class Header implements OnInit{
   router = inject(Router)
 
   ngOnInit(): void {
-    this.cart.emitselectedProductCount.subscribe((count: number) => {
+    this.cart.emitSelectedProductCount.subscribe((count: number) => {
       this.count = count;
     });
 
    this.router.events.subscribe(() => {
-      console.log(this.router.url)
       switch(this.router.url){
         case '/products':
           this.isProductInview = true;
@@ -48,11 +47,8 @@ export class Header implements OnInit{
         default:
           this.isProductInview = false;
       }
-    });
-
-  }
-
-
+ })
+}
   onSearchProductName(inputValue: string): void {
     // emit the search input value to the Search service
     this.search.searchProductName(inputValue);

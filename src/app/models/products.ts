@@ -9,6 +9,7 @@ export default class ProductsModel {
     public rating: number,
     public stock: number,
     public images: string[],
-    public count?: number
+    public count?: number,
+    public deliveryDate?: Date
   ) {}
 }

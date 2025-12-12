@@ -2,7 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Cart } from '../../services/cart';
 import ProductsModel from '../../models/products';
 import { CurrencyPipe, DatePipe, NgFor } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import OrderModel from '../../models/order';
 
 @Component({
   selector: 'app-carts',
@@ -13,27 +14,22 @@ import { RouterModule } from '@angular/router';
 export class Carts implements OnInit{
 
   cart = inject(Cart);
+  router = inject(Router);
 
   count: number = 0;
 
   selectedCart: ProductsModel[] = [];
-  deliveryDate!: Date;
   itemsArray: number[] = [];
   itemsPrice: number = 0;
   tax: number = 0;
   shipping: number = 0;
   total: number = 0;
 
+  order!: OrderModel;
+
   ngOnInit(): void {
     this.cart.emitSelectedCart.subscribe((cart: ProductsModel[]) => {
       this.selectedCart = cart;
-      const today = new Date();
-      // condition to avoid delivery date falling on Sunday when the order is made on Sunday
-      if(today.getDay() < 7){
-        this.deliveryDate = new Date(today.setDate(today.getDate() + 7));
-      } else {
-        this.deliveryDate = new Date(today.setDate(today.getDate() + 7));
-      }
 
       this.selectedCart.forEach((product: ProductsModel) => {
         const itemPrice = product.price * (product.count ?? 1);
@@ -46,11 +42,38 @@ export class Carts implements OnInit{
 
     });
 
-    this.cart.emitselectedProductCount.subscribe((count: number) => {
+    this.cart.emitSelectedProductCount.subscribe((count: number) => {
       this.count = count;
       this.shipping = this.count * 1.1;
     });
 
+  }
+
+  onOrderClick() {
+    if(this.selectedCart.length > 0){
+      const groupId = crypto.randomUUID();
+      const today = new Date();
+      this.order = new OrderModel(groupId, this.total, this.selectedCart, today);
+      this.cart.placeOrder(this.order);
+    } else {
+      alert('No items in cart');
+      return
+    }
+
+    this.cart.clearCart();
+    this.resetStates();
+    this.router.navigate(['/orders']);
+
+  }
+
+  private resetStates() {
+    this.selectedCart = [];
+    this.count = 0;
+    this.itemsArray = [];
+    this.itemsPrice = 0;
+    this.tax = 0;
+    this.shipping = 0;
+    this.total = 0;   
   }
 
 }

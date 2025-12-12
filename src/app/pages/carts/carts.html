@@ -14,7 +14,7 @@
                 </div>
                 <div class="delivery-date">
                     <p class="bold">Delivery Date<p>
-                    <p>{{deliveryDate | date}}</p>
+                    <p>{{eachSelectedCart.deliveryDate | date}}</p>
                 </div>
             </div>
             <button routerLink="/products">Click To See All Products</button>
@@ -39,7 +39,7 @@
                     <p>Total</p>
                     <p>{{total | currency}}</p>
                 </div>
-                <button>Place Your Order</button>
+                <button (click)="onOrderClick()">Place Your Order</button>
         </div>
     </div>
 </div>

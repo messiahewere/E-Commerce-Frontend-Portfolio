@@ -1,1 +1,35 @@
-<p>orders works!</p>
+<section class="container">
+  <h2>Your Orders</h2>
+
+  <!-- Empty / placeholder state -->
+  <div class="empty-state" *ngIf="placedOrders.length === 0; else orders">
+    <p>You don't have any completed orders yet.</p>
+    <p>When you place an order it'll appear here with its details and status.</p>
+  </div>
+
+  
+  <ng-template #orders>
+    <div class="orders-holder" *ngFor="let orders of placedOrders">
+      <div class="order-meta">
+        <p><strong>Date Ordered: </strong> {{orders.orderDate | date}}</p>
+        <p><strong>Status: </strong> Processing</p>
+        <p><strong>Total: </strong> {{orders.total}}</p>
+        <p><strong>Order ID: </strong>{{orders.groupId}}</p>
+      </div>
+
+      <div class="order-items" *ngFor="let items of orders.products">
+          <figure>
+            <img alt="product" [src]="items.images">
+          </figure>
+          <div class="item-info">
+            <p><strong>{{items.title}}</strong></p>
+            <p>Quantity: {{items.count}}</p>
+            <p>{{items.price | currency}}</p>
+            <p>Arrival Date: {{items.deliveryDate | date}}</p>
+          </div>
+          <button class="track-btn">Track Package</button>
+        </div>  
+    </div>
+  </ng-template>
+  <button routerLink="/products">Click To See All Products</button> 
+</section>
