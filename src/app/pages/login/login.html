@@ -1,1 +1,33 @@
-<p>login works!</p>
+<div class="container">
+    <form (ngSubmit)="onFormSubmit(regLog)" #regLog="ngForm">
+        <h2>{{isLogin ? "Login" : "Register"}}</h2>
+        <mat-form-field *ngIf="!isLogin">
+            <mat-label>Username</mat-label>
+            <input type="text" matInput name="username" ngModel>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
+                   matInput name="email" required ngModel #email="ngModel">
+                   <mat-error *ngIf="email.invalid && email.touched">
+                     Please enter a valid email
+                   </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="password" minlength="8" matInput name="password" ngModel #password="ngModel">
+                   <mat-error *ngIf="password.invalid && password.touched">
+                      Password cannot be less than 8 characters
+                   </mat-error>
+        </mat-form-field>
+        <button [disabled]="!regLog.touched || regLog.invalid" 
+                [ngClass]="{'disabled': !regLog.touched || regLog.invalid}">
+                {{isLogin ? "Login" : "Register"}}
+        </button>
+        <p>{{!isLogin ? "Already have an account?" : "Don't have an acoount?"}} 
+            <span (click)="onRegLogChange()">
+                {{!isLogin ? "Login" : "Register"}}
+            </span>
+        </p>
+    </form>
+</div>
