@@ -52,7 +52,7 @@ export class Login {
           next: (res) => {
             // Actions to take when login is successful
             regLog.resetForm();
-            this.auth.useToken(res);
+            this.auth.useToken(res.token);
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/carts';
             this.router.navigate([returnUrl]);
           },

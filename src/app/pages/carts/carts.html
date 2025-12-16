@@ -23,7 +23,7 @@
             <h4>Payment Summary</h4>
             <div class="summary-details">
                 <div class="detail">
-                    <p>Items ({{count}})</p>
+                    <p>Item<span *ngIf="count > 1">s</span> ({{count}})</p>
                     <p>{{itemsPrice | currency}}</p>
                 </div>
                 <div class="detail">

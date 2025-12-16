@@ -7,13 +7,13 @@ import authModel from '../models/auth';
   providedIn: 'root',
 })
 export class Auth {
-  emitToken: BehaviorSubject<string> = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('token') || 'null'))
+  emitToken: BehaviorSubject<string> = new BehaviorSubject<string>(localStorage.getItem('token') || '')
 
   http: HttpClient = inject(HttpClient);
 
 
-  login(email: string, password: string): Observable<string> {
-    return this.http.post<string>('https://e-commerce-backend-portfolio.onrender.com/api/auth/login', {
+  login(email: string, password: string): Observable<{token: string}> {
+    return this.http.post<{token: string}>('https://e-commerce-backend-portfolio.onrender.com/api/auth/login', {
       email: email,
       password: password,
     });

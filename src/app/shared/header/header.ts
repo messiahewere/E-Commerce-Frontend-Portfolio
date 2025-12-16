@@ -42,7 +42,7 @@ export class Header implements OnInit{
           break;
         case '/carts':
           this.isProductInview = false;
-          this.headerTitle = `Checkout (${this.count} items)`;
+          this.headerTitle = `Checkout (${this.count} item${this.count > 1 ? 's' : ''})`;
           break;
         default:
           this.isProductInview = false;

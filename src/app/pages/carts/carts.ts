@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Cart } from '../../services/cart';
 import ProductsModel from '../../models/products';
-import { CurrencyPipe, DatePipe, NgFor } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, NgFor } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import OrderModel from '../../models/order';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-carts',
-  imports: [NgFor, DatePipe, CurrencyPipe, RouterModule],
+  imports: [NgFor, DatePipe, CurrencyPipe, RouterModule, CommonModule],
   templateUrl: './carts.html',
   styleUrl: './carts.scss',
 })
@@ -15,6 +16,7 @@ export class Carts implements OnInit{
 
   cart = inject(Cart);
   router = inject(Router);
+  auth = inject(Auth)
 
   count: number = 0;
 
@@ -26,6 +28,8 @@ export class Carts implements OnInit{
   total: number = 0;
 
   order!: OrderModel;
+
+  authToken: string = '';
 
   ngOnInit(): void {
     this.cart.emitSelectedCart.subscribe((cart: ProductsModel[]) => {
@@ -42,14 +46,27 @@ export class Carts implements OnInit{
 
     });
 
+    // retriving the number of items selected
     this.cart.emitSelectedProductCount.subscribe((count: number) => {
       this.count = count;
       this.shipping = this.count * 1.1;
     });
 
+    // subscribing to the auth token
+    this.auth.emitToken.subscribe((token: string) => {
+      this.authToken = token;
+    })
+
   }
 
   onOrderClick() {
+    
+    // Check if token is valid (not empty, null, or [object Object])
+    if(!this.authToken) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    
     if(this.selectedCart.length > 0){
       const groupId = crypto.randomUUID();
       const today = new Date();
@@ -57,13 +74,12 @@ export class Carts implements OnInit{
       this.cart.placeOrder(this.order);
     } else {
       alert('No items in cart');
-      return
+      return;
     }
 
     this.cart.clearCart();
     this.resetStates();
     this.router.navigate(['/orders']);
-
   }
 
   private resetStates() {
