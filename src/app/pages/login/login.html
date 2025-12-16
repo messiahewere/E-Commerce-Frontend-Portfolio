@@ -1,4 +1,7 @@
 <div class="container">
+    <div class="success-msg-holder" *ngIf="sucessMessage">
+        <p>{{sucessMessage}}</p>
+    </div>
     <form (ngSubmit)="onFormSubmit(regLog)" #regLog="ngForm">
         <h2>{{isLogin ? "Login" : "Register"}}</h2>
         <mat-form-field *ngIf="!isLogin">
@@ -15,7 +18,7 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Password</mat-label>
-            <input type="password" minlength="8" matInput name="password" ngModel #password="ngModel">
+            <input type="password" minlength="8" required matInput name="password" ngModel #password="ngModel">
                    <mat-error *ngIf="password.invalid && password.touched">
                       Password cannot be less than 8 characters
                    </mat-error>
