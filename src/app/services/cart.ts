@@ -1,13 +1,18 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import ProductsModel from '../models/products';
 import OrderModel from '../models/order';
+import { HttpClient } from '@angular/common/http';
+import { Auth } from './auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Cart {
 
+  http: HttpClient = inject(HttpClient);
+  authToken: string = localStorage.getItem('token') || '';
+  auth = inject(Auth)
   
   selectedCart: ProductsModel[] = this.getFromStorage('cart', []);
   selectedProductCount: number = parseInt(localStorage.getItem('cartCount') || '0');
@@ -16,9 +21,15 @@ export class Cart {
 
   deliveryDate!: Date;
 
-  emitPlacedOrders: BehaviorSubject<OrderModel[]> = new BehaviorSubject<OrderModel[]>(this.getFromStorage('orders', []));
+  // emitPlacedOrders: BehaviorSubject<OrderModel[]> = new BehaviorSubject<OrderModel[]>(this.getFromStorage('orders', []));
 
-  placedOrders: OrderModel[] = this.getFromStorage('orders', []);
+  // placedOrders: OrderModel[] = this.getFromStorage('orders', []);
+
+  constructor() {
+    this.auth.emitToken.subscribe((token: string) => {
+      this.authToken = token;
+    });
+  }
 
   private getFromStorage<T>(key: string, defaultValue: T): T {
     try {
@@ -27,6 +38,7 @@ export class Cart {
       return defaultValue;
     }
   }
+
 
   private saveToStorage(key: string, value: any): void {
     try {
@@ -79,10 +91,36 @@ export class Cart {
     this.emitSelectedProductCount.next(this.selectedProductCount);
   }
 
+
+  removeFromCart(product: ProductsModel): void {
+    const index = this.selectedCart.findIndex(p => p._id === product._id);
+    if (index !== -1) {
+      const existingProduct = this.selectedCart[index];
+      if (existingProduct.count && existingProduct.count > 1) {
+        this.selectedCart[index] = { ...existingProduct, count: existingProduct.count - 1 };
+      } else {
+        this.selectedCart.splice(index, 1);
+      }
+      this.selectedProductCount--;
+      this.saveToStorage('cart', this.selectedCart);
+      this.saveToStorage('cartCount', this.selectedProductCount.toString());
+      this.emitSelectedCart.next(this.selectedCart);
+      this.emitSelectedProductCount.next(this.selectedProductCount);
+    }
+  }
+
+
   placeOrder(order: OrderModel): void{
-    this.placedOrders.push(order);
-    this.saveToStorage('orders', this.placedOrders);
-    this.emitPlacedOrders.next(this.placedOrders);
+    // make a post request to the endpoint by creating a new cart selection from the selected item(s)
+    const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
+    this.http.post<OrderModel>('https://e-commerce-backend-portfolio.onrender.com/api/cart', order, { headers }).subscribe();
+    // this.saveToStorage('orders', this.placedOrders);
+    // this.emitPlacedOrders.next(this.placedOrders);
+  }
+
+  getOrders(): Observable<OrderModel[]> {
+    const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
+    return this.http.get<OrderModel[]>('https://e-commerce-backend-portfolio.onrender.com/api/cart', { headers });
   }
 
   

@@ -7,7 +7,7 @@ import authModel from '../models/auth';
   providedIn: 'root',
 })
 export class Auth {
-  emitToken: BehaviorSubject<string> = new BehaviorSubject<string>(localStorage.getItem('token') || '')
+  emitToken: BehaviorSubject<string> = new BehaviorSubject<string>(this.getValidToken())
 
   http: HttpClient = inject(HttpClient);
 
@@ -27,8 +27,39 @@ export class Auth {
     });
   }
 
+  // method called upon login
   useToken(token: string) {
     localStorage.setItem('token', token);
     this.emitToken.next(token);
+  }
+
+  private getValidToken(): string {
+    const token = localStorage.getItem('token');
+    if (!token) return '';
+    
+    if (this.isTokenExpired(token)) {
+      this.clearToken();
+      return '';
+    }
+    return token;
+  }
+
+  private isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      return payload.exp < currentTime;
+    } catch {
+      return true;
+    }
+  }
+
+  clearToken() {
+    localStorage.removeItem('token');
+    this.emitToken.next('');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getValidToken();
   }
 }

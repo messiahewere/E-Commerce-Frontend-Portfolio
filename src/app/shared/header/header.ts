@@ -44,8 +44,17 @@ export class Header implements OnInit{
           this.isProductInview = false;
           this.headerTitle = `Checkout (${this.count} item${this.count > 1 ? 's' : ''})`;
           break;
+        case '/orders':
+          this.isProductInview = false;
+          this.headerTitle = 'View Your Orders';
+          break;
+          case '/login':
+          this.isProductInview = false;
+          this.headerTitle = 'Register or Login';
+          break;
         default:
           this.isProductInview = false;
+          this.headerTitle = '';
       }
  })
 }

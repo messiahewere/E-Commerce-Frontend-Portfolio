@@ -68,9 +68,8 @@ export class Carts implements OnInit{
     }
     
     if(this.selectedCart.length > 0){
-      const groupId = crypto.randomUUID();
       const today = new Date();
-      this.order = new OrderModel(groupId, this.total, this.selectedCart, today);
+      this.order = new OrderModel(this.total, this.selectedCart, today);
       this.cart.placeOrder(this.order);
     } else {
       alert('No items in cart');
