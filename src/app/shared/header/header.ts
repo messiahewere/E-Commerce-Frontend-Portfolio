@@ -8,6 +8,7 @@ import {Router, RouterLink} from "@angular/router";
 import { Search } from '../../services/search';
 import { Cart } from '../../services/cart';
 import { CommonModule } from '@angular/common';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-header',
@@ -24,11 +25,22 @@ export class Header implements OnInit{
   isProductInview: boolean = false;
   headerTitle: string = '';
 
+  token!: string;
+
   router = inject(Router)
+  auth = inject(Auth)
 
   ngOnInit(): void {
+    this.auth.emitToken.subscribe((token: string) => {
+      this.token = token;
+    })
+    
     this.cart.emitSelectedProductCount.subscribe((count: number) => {
       this.count = count;
+      // Update header title if on carts page
+      if (this.router.url === '/carts') {
+        this.headerTitle = `Checkout (${this.count} item${this.count !== 1 ? 's' : ''})`;
+      }
     });
 
    this.router.events.subscribe(() => {
@@ -42,7 +54,7 @@ export class Header implements OnInit{
           break;
         case '/carts':
           this.isProductInview = false;
-          this.headerTitle = `Checkout (${this.count} item${this.count > 1 ? 's' : ''})`;
+          this.updateCartsTitle();
           break;
         case '/orders':
           this.isProductInview = false;
@@ -63,4 +75,12 @@ export class Header implements OnInit{
     this.search.searchProductName(inputValue);
   }
 
+  onLogOutClick() {
+    this.auth.clearToken();
+    this.router.navigate(['/login']);
+  }
+
+  private updateCartsTitle() {
+    this.headerTitle = `Checkout (${this.count} item${this.count !== 1 ? 's' : ''})`;
+  }
 }

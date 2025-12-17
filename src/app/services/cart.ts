@@ -64,7 +64,7 @@ export class Cart {
       this.selectedProductCount++;
       this.saveToStorage('cart', this.selectedCart);
       this.saveToStorage('cartCount', this.selectedProductCount.toString());
-      this.emitSelectedCart.next(this.selectedCart);
+      this.emitSelectedCart.next([...this.selectedCart]);
       this.emitSelectedProductCount.next(this.selectedProductCount);
       return;
       
@@ -78,7 +78,7 @@ export class Cart {
     this.selectedProductCount++;
     this.saveToStorage('cart', this.selectedCart);
     this.saveToStorage('cartCount', this.selectedProductCount.toString());
-    this.emitSelectedCart.next(this.selectedCart);
+    this.emitSelectedCart.next([...this.selectedCart]);
     this.emitSelectedProductCount.next(this.selectedProductCount);
   }
 
@@ -87,7 +87,7 @@ export class Cart {
     this.selectedProductCount = 0;
     this.removeFromStorage('cart');
     this.removeFromStorage('cartCount');
-    this.emitSelectedCart.next(this.selectedCart);
+    this.emitSelectedCart.next([...this.selectedCart]);
     this.emitSelectedProductCount.next(this.selectedProductCount);
   }
 
@@ -98,13 +98,28 @@ export class Cart {
       const existingProduct = this.selectedCart[index];
       if (existingProduct.count && existingProduct.count > 1) {
         this.selectedCart[index] = { ...existingProduct, count: existingProduct.count - 1 };
+        this.selectedProductCount--;
       } else {
+        // Remove entire product, decrease count by remaining quantity
+        this.selectedProductCount -= (existingProduct.count || 1);
         this.selectedCart.splice(index, 1);
       }
-      this.selectedProductCount--;
       this.saveToStorage('cart', this.selectedCart);
       this.saveToStorage('cartCount', this.selectedProductCount.toString());
-      this.emitSelectedCart.next(this.selectedCart);
+      this.emitSelectedCart.next([...this.selectedCart]);
+      this.emitSelectedProductCount.next(this.selectedProductCount);
+    }
+  }
+
+  addItemToCart(product: ProductsModel): void {
+    const index = this.selectedCart.findIndex(p => p._id === product._id);
+    if (index !== -1) {
+      const existingProduct = this.selectedCart[index];
+      this.selectedCart[index] = { ...existingProduct, count: existingProduct.count ? existingProduct.count + 1 : 1 };
+      this.selectedProductCount++;
+      this.saveToStorage('cart', this.selectedCart);
+      this.saveToStorage('cartCount', this.selectedProductCount.toString());
+      this.emitSelectedCart.next([...this.selectedCart]);
       this.emitSelectedProductCount.next(this.selectedProductCount);
     }
   }

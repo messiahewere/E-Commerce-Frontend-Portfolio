@@ -3,17 +3,17 @@
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-            <mat-icon>dialpad</mat-icon>
-            <span>Redial</span>
+        <button mat-menu-item routerLink="/products">
+            <mat-icon>inventory_2</mat-icon>
+            <span>All Products</span>
         </button>
-        <button mat-menu-item disabled>
-            <mat-icon>voicemail</mat-icon>
-            <span>Check voice mail</span>
+        <button *ngIf="!token" mat-menu-item routerLink="/login">
+            <mat-icon>login</mat-icon>
+            <span>Login</span>
         </button>
-        <button mat-menu-item>
-            <mat-icon>notifications_off</mat-icon>
-            <span>Disable alerts</span>
+        <button *ngIf="token" mat-menu-item (click)="onLogOutClick()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
         </button>
     </mat-menu>
 

@@ -55,6 +55,29 @@ figure {
     flex-grow: 1;
 }
 
+.add-delete-holder {
+    display: flex;
+    gap: 10px;
+}
+
+.add {
+    cursor: pointer;
+    color: rgb(7, 7, 120);
+
+    &:active {
+        color: blue;
+    }
+}
+
+.delete {
+    cursor: pointer;
+    color: rgb(180, 51, 11);
+
+    &:active {
+        color: rgb(245, 61, 5);
+    }
+}
+
 .bold {
     font-weight: bold;
     font-size: 0.9em;

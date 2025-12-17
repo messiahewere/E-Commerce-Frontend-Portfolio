@@ -11,6 +11,10 @@
                     <p class="bold">{{eachSelectedCart.description}}<p>
                     <p class="bold">{{eachSelectedCart.price | currency}}</p>
                     <p>Quantity: {{eachSelectedCart.count}}</p>
+                    <div class="add-delete-holder">
+                        <p class="add" (click)="onAddClick(eachSelectedCart)">Add</p>
+                        <p class="delete" (click)="onDeleteClick(eachSelectedCart)">Delete</p>
+                    </div>
                 </div>
                 <div class="delivery-date">
                     <p class="bold">Delivery Date<p>

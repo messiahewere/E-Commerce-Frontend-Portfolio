@@ -3,8 +3,8 @@
         <p>{{sucessMessage}}</p>
     </div>
     <form (ngSubmit)="onFormSubmit(regLog)" #regLog="ngForm">
-        <h2>{{isLogin ? "Login" : "Register"}}</h2>
-        <mat-form-field *ngIf="!isLogin">
+        <h2>{{!isLogin ? "Login" : "Register"}}</h2>
+        <mat-form-field *ngIf="isLogin">
             <mat-label>Username</mat-label>
             <input type="text" matInput name="username" ngModel>
         </mat-form-field>
@@ -25,11 +25,11 @@
         </mat-form-field>
         <button [disabled]="!regLog.touched || regLog.invalid" 
                 [ngClass]="{'disabled': !regLog.touched || regLog.invalid}">
-                {{isLogin ? "Login" : "Register"}}
-        </button>
-        <p>{{!isLogin ? "Already have an account?" : "Don't have an acoount?"}} 
-            <span (click)="onRegLogChange()">
                 {{!isLogin ? "Login" : "Register"}}
+        </button>
+        <p>{{isLogin ? "Already have an account?" : "Don't have an acoount?"}} 
+            <span (click)="onRegLogChange()">
+                {{isLogin ? "Login" : "Register"}}
             </span>
         </p>
     </form>

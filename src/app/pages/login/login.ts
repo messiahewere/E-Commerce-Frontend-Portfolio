@@ -26,7 +26,7 @@ export class Login {
 
   onFormSubmit(regLog: NgForm): void {
 
-    if(!this.isLogin) {
+    if(this.isLogin) {
       // Logic to register a new user
       const {username, email, password } = regLog.value
       this.auth.register(username, email, password).subscribe({

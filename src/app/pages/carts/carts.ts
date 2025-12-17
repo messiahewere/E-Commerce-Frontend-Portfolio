@@ -34,9 +34,10 @@ export class Carts implements OnInit{
   ngOnInit(): void {
     this.cart.emitSelectedCart.subscribe((cart: ProductsModel[]) => {
       this.selectedCart = cart;
+      this.itemsArray = []; // Clear array before recalculating
 
       this.selectedCart.forEach((product: ProductsModel) => {
-        const itemPrice = product.price * (product.count ?? 1);
+        const itemPrice = product.price * (product.count || 1);
         this.itemsArray.push(itemPrice);
       })
       // calculating the items price for all the order made excluding tax and shipping
@@ -50,6 +51,8 @@ export class Carts implements OnInit{
     this.cart.emitSelectedProductCount.subscribe((count: number) => {
       this.count = count;
       this.shipping = this.count * 1.1;
+      // Recalculate total when count changes
+      this.total = this.itemsPrice + this.tax + this.shipping;
     });
 
     // subscribing to the auth token
@@ -61,8 +64,9 @@ export class Carts implements OnInit{
 
   onOrderClick() {
     
-    // Check if token is valid (not empty, null, or [object Object])
+    // Check if token is valid 
     if(!this.authToken) {
+      alert('Please Login to continue with your order');
       this.router.navigate(['/login']);
       return;
     }
@@ -79,6 +83,15 @@ export class Carts implements OnInit{
     this.cart.clearCart();
     this.resetStates();
     this.router.navigate(['/orders']);
+  }
+
+  // Method to increase the quantity of selected cart item
+  onAddClick(selectedCart: ProductsModel) {
+    this.cart.addItemToCart(selectedCart);
+  }
+
+  onDeleteClick(selectedCart: ProductsModel) {
+    this.cart.removeFromCart(selectedCart);
   }
 
   private resetStates() {
