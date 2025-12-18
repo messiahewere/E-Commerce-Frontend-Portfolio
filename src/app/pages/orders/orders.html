@@ -13,7 +13,7 @@
       <div class="order-meta">
         <p><strong>Date Ordered: </strong> {{orders.orderDate | date}}</p>
         <p><strong>Status: </strong> Processing</p>
-        <p><strong>Total: </strong> {{orders.total}}</p>
+        <p><strong>Total: </strong> {{orders.total | currency}}</p>
         <p><strong>Order ID: </strong>{{orders._id}}</p>
       </div>
 

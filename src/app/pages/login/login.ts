@@ -27,6 +27,7 @@ export class Login {
   onFormSubmit(regLog: NgForm): void {
 
     if(this.isLogin) {
+      console.log("Register")
       // Logic to register a new user
       const {username, email, password } = regLog.value
       this.auth.register(username, email, password).subscribe({
@@ -43,10 +44,14 @@ export class Login {
 
           // return to the login state for proper login
           this.isLogin = !this.isLogin;
-        }
+        },
+        error: (err) => {
+            this.errorMessageDisplay(err);
+          }
       })
     } else {
       // Logic to login a user
+      console.log("Login")
         const {email, password } = regLog.value;
         this.auth.login(email, password).subscribe({
           next: (res) => {
