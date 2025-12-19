@@ -1,1 +1,74 @@
-<p>dashboard works!</p>
+<div class="container">
+  <div class="welcome-section">
+    <h2>Hi <span class="username">{{username? username : 'User'}}</span>, Welcome to Your Dashboard</h2>
+    <p>Manage your orders, cart, and explore products all in one place</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Quick Stats -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <mat-icon>shopping_cart</mat-icon>
+        <div class="stat-info">
+          <h3>{{cartCount}}</h3>
+          <p>Items in Cart</p>
+        </div>
+        <button mat-button routerLink="/carts">View Cart</button>
+      </div>
+      
+      <div class="stat-card">
+        <mat-icon>receipt_long</mat-icon>
+        <div class="stat-info">
+          <h3>{{orderCount}}</h3>
+          <p>Total Orders</p>
+        </div>
+        <button mat-button routerLink="/orders">View Orders</button>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="actions-section">
+      <h3>Quick Actions</h3>
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" routerLink="/products">
+          <mat-icon>inventory_2</mat-icon>
+          Browse Products
+        </button>
+        <button mat-raised-button routerLink="/carts" *ngIf="cartCount > 0">
+          <mat-icon>shopping_cart</mat-icon>
+          Checkout Cart
+        </button>
+        <button mat-raised-button routerLink="/orders">
+          <mat-icon>history</mat-icon>
+          Order History
+        </button>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="recent-section" *ngIf="recentOrders.length > 0">
+      <h3>Recent Orders</h3>
+      <div class="recent-orders">
+        <div class="order-item" *ngFor="let order of recentOrders.slice(0, 3)">
+          <div class="order-info">
+            <p><strong>Order #{{order._id?.slice(-6)}}</strong></p>
+            <p>{{order.orderDate | date:'short'}}</p>
+            <p>{{order.total | currency}}</p>
+          </div>
+          <span class="status-badge">Processing</span>
+        </div>
+      </div>
+      <button mat-button routerLink="/orders">View All Orders</button>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="recentOrders.length === 0">
+      <mat-icon>shopping_bag</mat-icon>
+      <h3>Start Shopping!</h3>
+      <p>You haven't placed any orders yet. Browse our products to get started.</p>
+      <button mat-raised-button color="primary" routerLink="/products">
+        Explore Products
+      </button>
+    </div>
+  </div>
+</div>

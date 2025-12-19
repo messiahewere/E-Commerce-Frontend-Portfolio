@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class Orders implements OnInit, OnDestroy {
 
-  placedOrders: OrderModel[] = [];
+  placedOrders: OrderModel[] = JSON.parse(localStorage.getItem('orders') || '[]');
   carts = inject(Cart)
   cdr = inject(ChangeDetectorRef)
   private subscription?: Subscription;
@@ -27,6 +27,7 @@ export class Orders implements OnInit, OnDestroy {
       this.subscription = this.carts.getOrders().subscribe({
       next: (orders: OrderModel[]) => {
         this.placedOrders = orders;
+        localStorage.setItem('orders', JSON.stringify(orders));
         this.cdr.detectChanges();
       },
       error: (err) => {

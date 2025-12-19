@@ -60,9 +60,13 @@ export class Header implements OnInit{
           this.isProductInview = false;
           this.headerTitle = 'View Your Orders';
           break;
-          case '/login':
+        case '/login':
           this.isProductInview = false;
           this.headerTitle = 'Register or Login';
+          break;
+        case '/dashboard':
+          this.isProductInview = false;
+          this.headerTitle = 'Dashboard';
           break;
         default:
           this.isProductInview = false;

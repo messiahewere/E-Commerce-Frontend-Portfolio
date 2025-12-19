@@ -3,6 +3,11 @@
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
+        
+        <button *ngIf="token" mat-menu-item routerLink="/dashboard">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+        </button>
         <button mat-menu-item routerLink="/products">
             <mat-icon>inventory_2</mat-icon>
             <span>All Products</span>
