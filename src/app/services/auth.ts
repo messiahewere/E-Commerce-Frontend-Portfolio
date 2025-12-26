@@ -62,4 +62,20 @@ export class Auth {
   isAuthenticated(): boolean {
     return !!this.getValidToken();
   }
+
+  getUserRole(): string | null {
+    const token = this.getValidToken();
+    if (!token) return null;
+    
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.role || null;
+    } catch {
+      return null;
+    }
+  }
+
+  isAdmin(): boolean {
+    return this.getUserRole() === 'admin';
+  }
 }

@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Auth } from '../../services/auth';
@@ -9,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -27,9 +28,8 @@ export class Login {
   onFormSubmit(regLog: NgForm): void {
 
     if(this.isLogin) {
-      console.log("Register")
       // Logic to register a new user
-      const {username, email, password } = regLog.value
+      const {username, email, password} = regLog.value
       this.auth.register(username, email, password).subscribe({
         next: (res) => {
           // Actions to take when registration is successful
@@ -51,7 +51,6 @@ export class Login {
       })
     } else {
       // Logic to login a user
-      console.log("Login")
         const {email, password } = regLog.value;
         this.auth.login(email, password).subscribe({
           next: (res) => {

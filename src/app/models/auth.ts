@@ -4,5 +4,6 @@ export default class authModel {
     public password: string,
     public _id?: number,
     public username?: string,
+    public role?: string,
   ) {}
 }

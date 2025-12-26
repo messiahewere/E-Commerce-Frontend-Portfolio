@@ -1,0 +1,98 @@
+.admin-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .orders-section {
+    h2 {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 20px;
+
+      .order-card {
+        .order-info {
+          margin-bottom: 15px;
+
+          p {
+            margin: 5px 0;
+          }
+
+          .status-badge {
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+          }
+        }
+
+        .products-list {
+          h4 {
+            margin: 10px 0 5px 0;
+            color: #666;
+          }
+
+          .product-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+          }
+        }
+
+        mat-card-actions {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px;
+
+          .status-update {
+            flex: 1;
+            margin-right: 10px;
+
+            mat-select {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    .no-orders {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-size: 18px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 10px;
+
+    .orders-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .order-card mat-card-actions {
+      flex-direction: column;
+      gap: 10px;
+
+      .status-update {
+        margin-right: 0;
+        width: 100%;
+      }
+    }
+  }
+}

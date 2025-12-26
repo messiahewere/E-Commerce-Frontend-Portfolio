@@ -24,6 +24,7 @@ export class Header implements OnInit{
   count: number = 0;
   isProductInview: boolean = false;
   headerTitle: string = '';
+  isAdmin: boolean = false; 
 
   token!: string;
 
@@ -33,6 +34,8 @@ export class Header implements OnInit{
   ngOnInit(): void {
     this.auth.emitToken.subscribe((token: string) => {
       this.token = token;
+      // Check admin status whenever the token changes
+      this.isAdmin = this.auth.isAdmin();
     })
     
     this.cart.emitSelectedProductCount.subscribe((count: number) => {
@@ -68,12 +71,23 @@ export class Header implements OnInit{
           this.isProductInview = false;
           this.headerTitle = 'Dashboard';
           break;
+        case '/admin':
+          this.isProductInview = false;
+          this.headerTitle = 'Admin Dashboard';
+          break;
         default:
           this.isProductInview = false;
           this.headerTitle = '';
       }
  })
+
+
 }
+
+  // isAdmin(): boolean {
+  //   return this.auth.isAdmin();
+  // }
+
   onSearchProductName(inputValue: string): void {
     // emit the search input value to the Search service
     this.search.searchProductName(inputValue);

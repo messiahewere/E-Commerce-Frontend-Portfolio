@@ -1,0 +1,54 @@
+<div class="admin-container">
+  
+  <div class="orders-section">
+    <h2>All Orders ({{allOrders.length}})</h2>
+    
+    <div class="orders-grid" *ngIf="allOrders.length > 0; else noOrders">
+      <mat-card *ngFor="let order of allOrders" class="order-card">
+        <mat-card-header>
+          <mat-card-title>Order #{{order._id}}</mat-card-title>
+          <mat-card-subtitle>{{order.orderDate | date:'medium'}}</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="order-info">
+            <p><strong>User ID:</strong> {{order.userId}}</p>
+            <p><strong>Total:</strong> {{order.total | currency}}</p>
+            <p><strong>Status:</strong> 
+              <span class="status-badge" [style.background-color]="getStatusColor(order.status || 'pending')">
+                {{order.status || 'pending' | titlecase}}
+              </span>
+            </p>
+          </div>
+          
+          <div class="products-list">
+            <h4>Products:</h4>
+            <div *ngFor="let product of order.products" class="product-item">
+              <span>{{product.title}} - {{product.count}}x {{product.price | currency}}</span>
+            </div>
+          </div>
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <div class="status-update">
+            <mat-select [(value)]="order.status" (selectionChange)="updateOrderStatus(order._id!, $event.value)">
+              <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+                {{status.label}}
+              </mat-option>
+            </mat-select>
+          </div>
+          
+          <button mat-raised-button color="warn" (click)="deleteOrder(order._id!)">
+            Delete Order
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    
+    <ng-template #noOrders>
+      <div class="no-orders">
+        <p>No orders found.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

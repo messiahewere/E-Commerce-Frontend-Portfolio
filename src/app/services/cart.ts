@@ -138,5 +138,20 @@ export class Cart {
     return this.http.get<OrderModel[]>('https://e-commerce-backend-portfolio.onrender.com/api/cart', { headers });
   }
 
+  getAllOrders(): Observable<OrderModel[]> {
+    const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
+    return this.http.get<OrderModel[]>('https://e-commerce-backend-portfolio.onrender.com/api/admin/orders', { headers });
+  }
+
+  updateOrderStatus(orderId: string, status: string): Observable<OrderModel> {
+    const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
+    return this.http.patch<OrderModel>(`https://e-commerce-backend-portfolio.onrender.com/api/admin/orders/${orderId}`, { status }, { headers });
+  }
+
+  deleteOrder(orderId: string): Observable<any> {
+    const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
+    return this.http.delete(`https://e-commerce-backend-portfolio.onrender.com/api/admin/orders/${orderId}`, { headers });
+  }
+
   
 }
