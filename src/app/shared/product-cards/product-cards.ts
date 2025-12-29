@@ -3,7 +3,7 @@ import ProductsModel from '../../models/products';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Search } from '../../services/search';
 import { MatIcon } from '@angular/material/icon';
-import { BehaviorSubject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Cart } from '../../services/cart';
 
 @Component({
@@ -15,12 +15,13 @@ import { Cart } from '../../services/cart';
 export class ProductCards implements OnInit, OnChanges, OnDestroy {
   @Input({ required: true })
   products!: ProductsModel[];
-  showProducts!: ProductsModel[];
+
+  showProducts: ProductsModel[] = [];
   currentSearchValue: string = '';
 
   cart = inject(Cart);
 
-  private $destroy: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
+  private $destroy: Subject<void> = new Subject<void>();
 
   search = inject(Search);
 

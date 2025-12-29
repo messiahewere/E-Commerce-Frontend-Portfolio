@@ -20,38 +20,28 @@ export class Products implements OnInit {
   productsService = inject(ProductsService);
   cdr = inject(ChangeDetectorRef);
 
-  selected = 'option2';
+  selected = localStorage.getItem('selectedCategory') || 'All';
 
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe((data: ProductsModel[]) => {
       this.allProducts = data;
-      this.toShowProducts = this.allProducts;
+      this.applyFilter(this.selected);
       this.cdr.detectChanges();
     });
   }
 
   // the filter function for mat-select when the select dropdown value changes
   onSelect(event: MatSelectChange): void {
-    switch(event.value) {
-      case 'Electronics':
-        this.toShowProducts = this.allProducts.filter((product: ProductsModel) => product.category === 'Electronics');
-        break;
-      case 'Fashion':
-        this.toShowProducts = this.allProducts.filter((product: ProductsModel) => product.category === 'Fashion');
-        break;
-      case 'Home':
-        this.toShowProducts = this.allProducts.filter((product: ProductsModel) => product.category === 'Home');
-        break;
-      case 'Beauty':
-        this.toShowProducts = this.allProducts.filter((product: ProductsModel) => product.category === 'Beauty');
-        break;
-        case 'Sports':
-        this.toShowProducts = this.allProducts.filter((product: ProductsModel) => product.category === 'Sports');
-        break;
-      default:
-        this.toShowProducts = this.allProducts;
-        break;
+    localStorage.setItem('selectedCategory', event.value);
+    this.applyFilter(event.value);
+  }
+
+  private applyFilter(category: string): void {
+    if (category && category !== 'All') {
+      this.toShowProducts = this.allProducts.filter((product: ProductsModel) => product.category === category);
+    } else {
+      this.toShowProducts = this.allProducts;
     }
   }
 

@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './admin.scss',
 })
 export class Admin implements OnInit, OnDestroy {
-  allOrders: OrderModel[] = [];
+  allOrders: OrderModel[] = JSON.parse(localStorage.getItem('allOrders') || '[]');
   cart = inject(Cart);
   cdr = inject(ChangeDetectorRef);
   private _snackBar = inject(MatSnackBar);
@@ -42,6 +42,7 @@ export class Admin implements OnInit, OnDestroy {
     this.subscription = this.cart.getAllOrders().subscribe({
       next: (orders: OrderModel[]) => {
         this.allOrders = orders;
+        localStorage.setItem('allOrders', JSON.stringify(orders));
         this.cdr.detectChanges();
       },
       error: (err) => {
