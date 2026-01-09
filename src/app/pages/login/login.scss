@@ -44,6 +44,10 @@ button {
     font-size: 1em;
 }
 
+button:active {
+    transform: scale(0.98);
+}
+
 button.disabled {
     background-color: #ccc;
     color: #666;
@@ -53,4 +57,12 @@ button.disabled {
 span {
     color: blue;
     cursor: pointer;
+}
+
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
 }

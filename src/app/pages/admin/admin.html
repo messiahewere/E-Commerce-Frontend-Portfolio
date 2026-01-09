@@ -1,5 +1,123 @@
 <div class="admin-container">
   
+  <!-- Add Product Section -->
+  <div class="add-product-section">
+    <div class="section-header">
+      <h2>Product Management</h2>
+      <button mat-raised-button color="primary" (click)="toggleAddProductForm()">
+        {{showAddProductForm ? 'Cancel' : 'Add New Product'}}
+      </button>
+    </div>
+    
+    <mat-card *ngIf="showAddProductForm" class="add-product-form">
+      <mat-card-header>
+        <mat-card-title>Add New Product</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <form (ngSubmit)="addProduct()" #productForm="ngForm">
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Title</mat-label>
+              <input matInput [(ngModel)]="newProduct.title" name="title" required>
+            </mat-form-field>
+            
+            <mat-form-field>
+              <mat-label>Price</mat-label>
+              <input matInput type="number" [(ngModel)]="newProduct.price" name="price" required>
+            </mat-form-field>
+          </div>
+          
+          <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput [(ngModel)]="newProduct.description" name="description" rows="3" required></textarea>
+          </mat-form-field>
+          
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Category</mat-label>
+              <input matInput [(ngModel)]="newProduct.category" name="category" required>
+            </mat-form-field>
+            
+            <mat-form-field>
+              <mat-label>Brand</mat-label>
+              <input matInput [(ngModel)]="newProduct.brand" name="brand" required>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Stock</mat-label>
+              <input matInput type="number" [(ngModel)]="newProduct.stock" name="stock" required>
+            </mat-form-field>
+            
+            <mat-form-field>
+              <mat-label>Rating</mat-label>
+              <input matInput type="number" step="0.1" min="0" max="5" [(ngModel)]="newProduct.rating" name="rating">
+            </mat-form-field>
+          </div>
+          
+          <div class="images-section">
+            <h4>Product Images</h4>
+            <input type="file" multiple accept="image/*" (change)="onFileSelect($event)" #fileInput>
+            <div *ngIf="selectedFiles.length > 0" class="selected-files">
+              <div *ngFor="let file of selectedFiles; let i = index" class="file-item">
+                <span>{{file.name}}</span>
+                <button type="button" mat-icon-button color="warn" (click)="removeFile(i)">
+                  ✕
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" mat-raised-button color="primary" [disabled]="!productForm.valid">
+              Add Product
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <!-- Product Management Section -->
+  <div class="products-section">
+    <div class="section-header">
+      <h2>Product Management</h2>
+      <button mat-raised-button color="accent" (click)="toggleProductsSection()">
+        {{showProductsSection ? 'Hide Products' : 'Manage Products'}}
+      </button>
+    </div>
+    
+    <div *ngIf="showProductsSection" class="products-grid">
+      <mat-card *ngFor="let product of allProducts" class="product-card">
+        <mat-card-header>
+          <mat-card-title>{{product.title}}</mat-card-title>
+          <mat-card-subtitle>{{product.category}} - {{product.brand}}</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="product-info">
+            <p><strong>Price:</strong> {{product.price | currency}}</p>
+            <p><strong>Stock:</strong> {{product.stock}}</p>
+            <p><strong>Rating:</strong> {{product.rating}}/5</p>
+            <p class="description">{{product.description}}</p>
+          </div>
+          
+          <div *ngIf="product.images && product.images.length > 0" class="product-images">
+            <img *ngFor="let image of product.images.slice(0, 3)" [src]="image" [alt]="product.title" class="product-thumbnail">
+          </div>
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <button mat-raised-button color="warn" (click)="deleteProduct(product._id)">
+            Delete Product
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  
   <div class="orders-section">
     <h2>All Orders ({{allOrders.length}})</h2>
     

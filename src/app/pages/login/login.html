@@ -2,6 +2,9 @@
     <div class="success-msg-holder" *ngIf="sucessMessage">
         <p>{{sucessMessage}}</p>
     </div>
+    <div class="loading-spinner" *ngIf="isLoading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
     <form (ngSubmit)="onFormSubmit(regLog)" #regLog="ngForm">
         <h2>{{!isLogin ? "Login" : "Register"}}</h2>
         <mat-form-field *ngIf="isLogin">

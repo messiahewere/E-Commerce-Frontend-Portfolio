@@ -20,13 +20,11 @@ export class Orders implements OnInit, OnDestroy {
   token: string = localStorage.getItem('token') || '';
 
   ngOnInit(): void {
-    // this.carts.emitPlacedOrders.subscribe((orders: OrderModel[]) => {
-    //   this.placedOrders = orders;
-    // });
     if(this.token) {
       this.subscription = this.carts.getOrders().subscribe({
       next: (orders: OrderModel[]) => {
         this.placedOrders = orders;
+        console.log(this.placedOrders);
         localStorage.setItem('orders', JSON.stringify(orders));
         this.cdr.detectChanges();
       },
@@ -36,6 +34,8 @@ export class Orders implements OnInit, OnDestroy {
         }
       }
     })
+    } else {
+      this.placedOrders = [];
     }
     
   }
