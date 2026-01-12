@@ -84,7 +84,8 @@ export class Login {
     });
 }
 
-  onRegLogChange() {
+  onRegLogChange(regLog: NgForm): void {
+    regLog.resetForm();
     this.isLogin = !this.isLogin;
   }
 

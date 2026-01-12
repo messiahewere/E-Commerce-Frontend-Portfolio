@@ -130,9 +130,9 @@
         
         <mat-card-content>
           <div class="order-info">
-            <p><strong>User ID:</strong> {{order.userId}}</p>
-            <p><strong>Total:</strong> {{order.total | currency}}</p>
-            <p><strong>Status:</strong> 
+            <p><strong>User ID: </strong> {{order.userId}}</p>
+            <p><strong>Total: </strong> {{order.total | currency}}</p>
+            <p><strong>Status: </strong> 
               <span class="status-badge" [style.background-color]="getStatusColor(order.status || 'pending')">
                 {{order.status || 'pending' | titlecase}}
               </span>

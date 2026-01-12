@@ -14,10 +14,6 @@ export class Products {
     return this.http.get<ProductsModel[]>('https://e-commerce-backend-portfolio.onrender.com/api/products');
   }
 
-  getAllProducts(): Observable<ProductsModel[]> {
-    return this.http.get<ProductsModel[]>('https://e-commerce-backend-portfolio.onrender.com/api/products');
-  }
-
   createProducts(formData: FormData) {
     const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
    return this.http.post('https://e-commerce-backend-portfolio.onrender.com/api/admin/product', formData, { headers })

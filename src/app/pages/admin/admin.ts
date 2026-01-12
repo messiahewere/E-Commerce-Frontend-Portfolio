@@ -166,7 +166,7 @@ export class Admin implements OnInit, OnDestroy {
   }
 
   loadAllProducts(): void {
-    this.products.getAllProducts().subscribe({
+    this.products.getProducts().subscribe({
       next: (products: ProductsModel[]) => {
         this.allProducts = products;
         this.cdr.detectChanges();
