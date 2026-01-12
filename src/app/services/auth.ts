@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import authModel from '../models/auth';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +14,14 @@ export class Auth {
 
 
   login(email: string, password: string): Observable<{token: string}> {
-    return this.http.post<{token: string}>('https://e-commerce-backend-portfolio.onrender.com/api/auth/login', {
+    return this.http.post<{token: string}>(`${environment.apiUrl}/auth/login`, {
       email: email,
       password: password,
     });
   }
 
   register(username: string, email: string, password: string): Observable<authModel> {
-    return this.http.post<authModel>('https://e-commerce-backend-portfolio.onrender.com/api/auth/register', {
+    return this.http.post<authModel>(`${environment.apiUrl}/auth/register`, {
       username: username,
       email: email,
       password: password,
