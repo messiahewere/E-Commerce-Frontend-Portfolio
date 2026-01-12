@@ -44,9 +44,6 @@ button {
     font-size: 1em;
 }
 
-button:active {
-    transform: scale(0.98);
-}
 
 button.disabled {
     background-color: #ccc;
